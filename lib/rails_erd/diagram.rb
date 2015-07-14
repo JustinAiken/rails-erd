@@ -150,9 +150,9 @@ module RailsERD
 
     def filtered_entities
       @domain.entities.reject { |entity|
-        options.exclude && entity.model && [options.exclude].flatten.include?(entity.name.to_sym) or
-        options.only && entity.model && ![options.only].flatten.include?(entity.name.to_sym) or
-        !options.inheritance && entity.specialized? or
+        options.exclude && entity.model &&  [options.exclude].flatten.map(&:to_sym).include?(entity.name.to_sym) or
+        options.only    && entity.model && ![options.only].flatten.map(&:to_sym).include?(entity.name.to_sym) or
+        !options.inheritance  && entity.specialized? or
         !options.polymorphism && entity.generalized? or
         !options.disconnected && entity.disconnected?
       }.compact.tap do |entities|
